@@ -11,8 +11,26 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
-	},
-} satisfies ExportedHandler<Env>;
+import { Context, Hono } from 'hono';
+
+const app = new Hono();
+
+async function handleHighSchool(context: Context) {
+	if (context.req.method != "POST") {
+		return new Response("Bad request.", { status: 400});
+	}
+	const body = await context.req.json();
+	const headers = context.req.header()
+	return await fetch(
+		"https://thisdlstu.schoolis.cn/api/Schedule/ListScheduleByParent",
+		{
+			method: "POST",
+			body: JSON.stringify(body),
+			headers: headers,
+		}
+	);
+}
+
+app.get("/high_school", handleHighSchool);
+export default app;
+
