@@ -16,9 +16,6 @@ import { Context, Hono } from 'hono';
 const app = new Hono();
 
 async function handleHighSchool(context: Context) {
-	if (context.req.method != "POST") {
-		return new Response("Bad request.", { status: 400});
-	}
 	const body = await context.req.json();
 	const headers = context.req.header()
 	return await fetch(
@@ -31,6 +28,6 @@ async function handleHighSchool(context: Context) {
 	);
 }
 
-app.get("/high_school", handleHighSchool);
+app.post("/high_school", handleHighSchool);
 export default app;
 
