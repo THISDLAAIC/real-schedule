@@ -8,4 +8,4 @@ The class that was actually scheduled for the first period in the afternoon was 
 This API corrects that.
 ## Usage
 This API provide a endpoint `https://rs.api.thisdlit.com/high_school`
-You can se it just like using `https://thisdlstu.schoolis.cn/api/Schedule/ListScheduleByParent`
+You can use it just like using `https://thisdlstu.schoolis.cn/api/Schedule/ListScheduleByParent`
