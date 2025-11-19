@@ -18,7 +18,7 @@ const app = new Hono();
 async function handleHighSchool(context: Context) {
 	const body = await context.req.json();
 	const headers = context.req.header()
-	return await fetch(
+	let response = await fetch(
 		"https://thisdlstu.schoolis.cn/api/Schedule/ListScheduleByParent",
 		{
 			method: "POST",
@@ -26,6 +26,15 @@ async function handleHighSchool(context: Context) {
 			headers: headers,
 		}
 	);
+	const resp_body: any = await response.json();
+	resp_body.data.forEach((schedule: any) => {
+		if (!schedule.beginTime.endsWith("T11:30:00") || !schedule.endTime.endsWith("T12:10:00")) return;
+		schedule.beginTime = schedule.beginTime.replace("T11:30:00", "T12:10:00");
+		schedule.endTime = schedule.endTime.replace("T12:10:00", "T12:50:00");
+	})
+	return new Response(JSON.stringify(resp_body), {
+		headers: { "Content-Type": "application/json" }
+	});
 }
 
 app.post("/high_school", handleHighSchool);
