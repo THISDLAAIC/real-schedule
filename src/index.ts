@@ -28,9 +28,13 @@ async function handleHighSchool(context: Context) {
 	);
 	const resp_body: any = await response.json();
 	resp_body.data.forEach((schedule: any) => {
-		if (!schedule.beginTime.endsWith("T11:30:00") || !schedule.endTime.endsWith("T12:10:00")) return;
-		schedule.beginTime = schedule.beginTime.replace("T11:30:00", "T12:10:00");
-		schedule.endTime = schedule.endTime.replace("T12:10:00", "T12:50:00");
+		if (schedule.beginTime.endsWith("T11:30:00") && schedule.endTime.endsWith("T12:10:00")) {
+			schedule.beginTime = schedule.beginTime.replace("T11:30:00", "T12:10:00");
+			schedule.endTime = schedule.endTime.replace("T12:10:00", "T12:50:00");
+		}
+		else if (schedule.beginTime.endsWith("T9:40:00") && schedule.endTime.endsWith("T10:20:00")) {
+			schedule.beginTime = schedule.beginTime.replace("T9:40:00", "T9:25:00");
+		}
 	})
 	return new Response(JSON.stringify(resp_body), {
 		headers: { "Content-Type": "application/json" }
